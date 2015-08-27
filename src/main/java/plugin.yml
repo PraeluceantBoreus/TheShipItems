@@ -1,0 +1,4 @@
+name: TheShipItems
+author: Richard Stöckl
+version: 0.0.1-NEPTUNIUM
+main: io.github.praeluceantboreus.theshipitems.main.TheShipItemsPlugin
