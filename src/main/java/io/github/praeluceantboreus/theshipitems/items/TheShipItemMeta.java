@@ -1,6 +1,7 @@
 package io.github.praeluceantboreus.theshipitems.items;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -9,15 +10,16 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.avaje.ebean.config.dbplatform.HsqldbPlatform;
-
 public class TheShipItemMeta implements ItemMeta
 {
+
+	private String displayName;
+	private HashSet<ItemFlag> flags;
 
 	@Override
 	public Map<String, Object> serialize()
 	{
-		throw new IllegalAccessError("not implemented!");
+		return new HashMap<>();
 	}
 
 	@Override
@@ -29,8 +31,10 @@ public class TheShipItemMeta implements ItemMeta
 	@Override
 	public void addItemFlags(ItemFlag... arg0)
 	{
-		// TODO Auto-generated method stub
-		
+		if (arg0 == null)
+			return;
+		for (ItemFlag itf : arg0)
+			flags.add(itf);
 	}
 
 	@Override
@@ -43,8 +47,7 @@ public class TheShipItemMeta implements ItemMeta
 	@Override
 	public String getDisplayName()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return displayName;
 	}
 
 	@Override
@@ -62,8 +65,7 @@ public class TheShipItemMeta implements ItemMeta
 	@Override
 	public Set<ItemFlag> getItemFlags()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return flags;
 	}
 
 	@Override
@@ -100,49 +102,43 @@ public class TheShipItemMeta implements ItemMeta
 	@Override
 	public boolean hasItemFlag(ItemFlag arg0)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return flags.contains(arg0);
 	}
 
 	@Override
 	public boolean hasLore()
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean removeEnchant(Enchantment arg0)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		throw new IllegalAccessError("not implemented!");
 	}
 
 	@Override
 	public void removeItemFlags(ItemFlag... arg0)
 	{
-		// TODO Auto-generated method stub
-		
+		if (arg0 != null)
+			for (ItemFlag itf : arg0)
+				flags.remove(itf);
 	}
 
 	@Override
 	public void setDisplayName(String arg0)
 	{
-		// TODO Auto-generated method stub
-		
+		this.displayName = arg0;
 	}
 
 	@Override
 	public void setLore(List<String> arg0)
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public Spigot spigot()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
