@@ -1,5 +1,6 @@
 package io.github.praeluceantboreus.theshipitems.items;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -13,8 +14,45 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class TheShipItemMeta implements ItemMeta
 {
 
-	private String displayName;
+	private String displayName, description;
 	private HashSet<ItemFlag> flags;
+	private HashMap<TheShipItemKey, String> additionalData;
+
+	public TheShipItemMeta()
+	{
+		flags = new HashSet<>();
+		additionalData = new HashMap<>();
+	}
+
+	public void setDescription(String description)
+	{
+		this.description = description;
+	}
+
+	public String getDescription()
+	{
+		return description;
+	}
+
+	public String getAdditionalData(String key)
+	{
+		return additionalData.get(new TheShipItemKey(key));
+	}
+
+	public boolean hasAdditionalData(String key)
+	{
+		return additionalData.containsKey(new TheShipItemKey(key));
+	}
+
+	public void setAdditionalData(String key, String value)
+	{
+		additionalData.put(new TheShipItemKey(key), value);
+	}
+
+	public void setAdditionalData(TheShipItemKey key, String value)
+	{
+		additionalData.put(key, value);
+	}
 
 	@Override
 	public Map<String, Object> serialize()
@@ -71,8 +109,11 @@ public class TheShipItemMeta implements ItemMeta
 	@Override
 	public List<String> getLore()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<String> ret = new ArrayList<>();
+		ret.add(getDescription());
+		for (TheShipItemKey tsi : additionalData.keySet())
+			ret.add(tsi.getName() + ": " + additionalData.get(tsi));
+		return ret;
 	}
 
 	@Override
