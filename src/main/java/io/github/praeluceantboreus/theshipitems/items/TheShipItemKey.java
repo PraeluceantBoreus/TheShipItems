@@ -59,4 +59,18 @@ public class TheShipItemKey implements Comparable<TheShipItemKey>
 			return 0;
 		return getId().compareTo(o.getId());
 	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (o == null || !(o instanceof TheShipItemKey))
+			return false;
+		return this.compareTo((TheShipItemKey) o) == 0;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "TheShipItemKey [name=" + name + ", id=" + id + ", inDescrition=" + inDescrition + "]";
+	}
 }

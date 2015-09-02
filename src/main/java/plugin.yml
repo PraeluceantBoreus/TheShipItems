@@ -1,4 +1,8 @@
 name: TheShipItems
 author: Richard Stöckl
-version: 0.0.1-NEPTUNIUM
+version: 0.0.3-NEPTUNIUM
 main: io.github.praeluceantboreus.theshipitems.main.TheShipItemsPlugin
+commands:
+  tsi:
+    usage: /tsi
+    description: main command

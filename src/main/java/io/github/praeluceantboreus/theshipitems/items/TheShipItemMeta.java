@@ -3,6 +3,7 @@ package io.github.praeluceantboreus.theshipitems.items;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,10 +19,26 @@ public class TheShipItemMeta implements ItemMeta
 	private HashSet<ItemFlag> flags;
 	private HashMap<TheShipItemKey, String> additionalData;
 
-	public TheShipItemMeta()
+	public TheShipItemMeta(String displayName, String description)
 	{
+		this.displayName = displayName;
+		this.description = description;
 		flags = new HashSet<>();
 		additionalData = new HashMap<>();
+	}
+
+	public HashMap<TheShipItemKey, String> getAddData()
+	{
+		return additionalData;
+	}
+
+	private TheShipItemMeta(String displayName, String description, HashSet<ItemFlag> flags, HashMap<TheShipItemKey, String> additionalData)
+	{
+		super();
+		this.displayName = displayName;
+		this.description = description;
+		this.flags = flags;
+		this.additionalData = additionalData;
 	}
 
 	public void setDescription(String description)
@@ -36,7 +53,11 @@ public class TheShipItemMeta implements ItemMeta
 
 	public String getAdditionalData(String key)
 	{
-		return additionalData.get(new TheShipItemKey(key));
+		TheShipItemKey argKe = new TheShipItemKey(key);
+		for (TheShipItemKey itemkey : additionalData.keySet())
+			if (itemkey.equals(argKe))
+				return additionalData.get(itemkey);
+		return "NULL";
 	}
 
 	public boolean hasAdditionalData(String key)
@@ -46,6 +67,7 @@ public class TheShipItemMeta implements ItemMeta
 
 	public void setAdditionalData(String key, String value)
 	{
+		remove(key);
 		additionalData.put(new TheShipItemKey(key), value);
 	}
 
@@ -75,11 +97,11 @@ public class TheShipItemMeta implements ItemMeta
 			flags.add(itf);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ItemMeta clone()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return new TheShipItemMeta(displayName, description, (HashSet<ItemFlag>) flags.clone(), (HashMap<TheShipItemKey, String>) additionalData.clone());
 	}
 
 	@Override
@@ -110,7 +132,8 @@ public class TheShipItemMeta implements ItemMeta
 	public List<String> getLore()
 	{
 		ArrayList<String> ret = new ArrayList<>();
-		ret.add(getDescription());
+		if (getDescription() != null)
+			ret.add(getDescription());
 		for (TheShipItemKey tsi : additionalData.keySet())
 			ret.add(tsi.getName() + ": " + additionalData.get(tsi));
 		return ret;
@@ -183,4 +206,16 @@ public class TheShipItemMeta implements ItemMeta
 		return null;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "TheShipItemMeta [displayName=" + displayName + ", description=" + description + ", flags=" + flags + ", additionalData=" + additionalData + "]";
+	}
+
+	public void remove(String id)
+	{
+		for (Iterator<Map.Entry<TheShipItemKey, String>> it = additionalData.entrySet().iterator(); it.hasNext();)
+			if (it.next().getKey().getId().equalsIgnoreCase(id))
+				it.remove();
+	}
 }
