@@ -174,8 +174,8 @@ public class TheShipWeaponUseListener implements Listener
 	@EventHandler
 	public void onDeath(EntityDamageByEntityEvent ede)
 	{
-		Bukkit.broadcastMessage(ede.getEntityType() + " hat " + ede.getDamage() + " Schaden erlitten");
+		Bukkit.broadcastMessage(ede.getEntityType() + " hat " + ede.getDamage() + " Schaden erlitten(" + ede.getCause() + ")");
 		if (ede.getEntity().isDead())
-			Bukkit.broadcastMessage(ede.getEntityType() + " ist von " + ede.getDamager().getName() + " kaltblütig niedergemetzelt worden");
+			Bukkit.broadcastMessage(ede.getEntityType() + " ist von " + ((ede.getDamager() instanceof Projectile) ? ((Projectile) ede.getDamager()).getShooter() : ede.getDamager().getName() + " kaltblütig niedergemetzelt worden"));
 	}
 }

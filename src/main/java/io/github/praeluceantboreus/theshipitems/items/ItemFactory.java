@@ -24,10 +24,10 @@ public class ItemFactory
 		this.manager = manager;
 	}
 
-	public ItemStack getItemStackFromID(String id)
+	public ItemStack getItemStackFromID(String section, String id)
 	{
 		ItemStack ret = new ItemStack(Material.AIR);
-		String call = "items." + id + ".";
+		String call = "items." + section + "." + id + ".";
 		ConfigurationSection itemConf = plugin.getConfig().getConfigurationSection(call);
 		ret.setType(Material.valueOf(itemConf.getString(TheShipWeaponOption.MATERIAL.toString())));
 		TheShipItemMeta meta = new TheShipItemMeta(itemConf.getString(TheShipWeaponOption.NAME.toString()), itemConf.getString(TheShipWeaponOption.DESCRIPTION.toString()));
@@ -36,6 +36,7 @@ public class ItemFactory
 		meta.setAdditionalData(TheShipWeaponOption.MATERIAL.toString(), itemConf.getString(TheShipWeaponOption.MATERIAL.toString()));
 		meta.setAdditionalData(TheShipWeaponOption.ID.toString(), id);
 		meta.setAdditionalData(TheShipWeaponOption.MUNITION.toString(), itemConf.getString(TheShipWeaponOption.MUNITION.toString()));
+		meta.setAdditionalData(TheShipWeaponOption.THROW_DAMAGE.toString(), itemConf.getString(TheShipWeaponOption.THROW_DAMAGE.toString()));
 		// ret.setItemMeta(meta);
 		ItemMeta itemmeta = Bukkit.getItemFactory().getItemMeta(ret.getType());
 		itemmeta.setDisplayName(itemConf.getString(TheShipWeaponOption.NAME.toString()));
@@ -43,6 +44,11 @@ public class ItemFactory
 		manager.registerItemStack(ret, meta);
 		updateLore(ret, null);
 		return ret;
+	}
+
+	public ItemStack getItemStackFromID(String id)
+	{
+		return getItemStackFromID(plugin.getConfig().getString("standardsection"), id);
 	}
 
 	public void updateLore(ItemStack item, Player player)
